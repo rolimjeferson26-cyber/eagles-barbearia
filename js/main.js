@@ -136,11 +136,24 @@ function iniciarMapa() {
   botao.addEventListener("click", () => {
     // Criamos o iframe só agora: antes do clique, nenhum pedido vai para o Google.
     const iframe = document.createElement("iframe");
+
+    // sandbox: tira TODAS as permissões ao conteúdo do iframe e devolve só
+    // as que o Google Maps precisa. Definido antes do src, para valer logo
+    // no primeiro carregamento.
+    //   allow-scripts              → o mapa é interativo (JavaScript)
+    //   allow-same-origin          → o mapa mantém a origem google.com; seguro
+    //                                porque é outro domínio, não o nosso
+    //   allow-popups(-to-escape-…) → "Ampliar mapa" abre um separador normal
+    // Ficam de fora, de propósito: allow-top-navigation (o mapa não pode
+    // mudar a nossa página), allow-forms, allow-modals, allow-downloads.
+    iframe.setAttribute("sandbox", "allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox");
+    // no-referrer: o Google não recebe o endereço da página onde o mapa está
+    iframe.referrerPolicy = "no-referrer";
+
     // encodeURIComponent converte espaços e acentos para o formato de URL
     iframe.src = `https://www.google.com/maps?q=${encodeURIComponent(morada)}&output=embed`;
     iframe.title = "Mapa com a localização da Eagles Barbearia";
     iframe.loading = "lazy";
-    iframe.referrerPolicy = "no-referrer-when-downgrade";
 
     mapa.replaceChildren(iframe); // troca o aviso pelo mapa
   });

@@ -9,3 +9,32 @@ Thumbs.db
 
 # Ferramentas de deploy
 .netlify/
+
+# Segredos e credenciais: NUNCA vão para o Git
+# (na Fase 2, o SECRET_KEY e a password da base de dados do Django ficam no .env)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa*
+id_ed25519*
+credentials*.json
+secrets*.json
+
+# Bases de dados locais e dados de clientes
+*.sqlite3
+*.db
+*.sql
+*.dump
+
+# Python (Fase 2)
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# Logs
+*.log

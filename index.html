@@ -5,6 +5,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  <!--
+    Segurança (o GitHub Pages não deixa configurar cabeçalhos HTTP, por isso
+    usamos <meta>). A CSP diz ao navegador de onde pode carregar cada tipo de
+    recurso: só ficheiros do próprio site, e iframes apenas do Google Maps.
+    Não há 'unsafe-inline' porque o site não tem estilos nem scripts inline.
+  -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; frame-src https://www.google.com; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+
+  <!-- TEMPORÁRIO: impede a indexação enquanto o site é só uma demonstração.
+       Remover quando passar a ser o site oficial da barbearia. -->
+  <meta name="robots" content="noindex">
+
   <!-- SEO local: o título e a descrição são o que aparece no Google -->
   <title>Eagles Barbearia | Barbearia em Estarreja</title>
   <meta name="description" content="Barbearia em Estarreja: cortes degradê e social, barba, ozonioterapia e limpeza de pele. Avaliação 4,9 ★ no Google. Marque online ou fale connosco no WhatsApp.">
@@ -131,7 +144,7 @@
           <li><a class="menu__link" href="#equipa">Equipa</a></li>
           <li><a class="menu__link" href="#galeria">Galeria</a></li>
           <li><a class="menu__link" href="#horarios">Horários</a></li>
-          <li><a class="botao botao--primario menu__cta" href="https://noona.pt/eaglesbarbershop" target="_blank" rel="noopener">Marcar</a></li>
+          <li><a class="botao botao--primario menu__cta" href="https://noona.pt/eaglesbarbershop" target="_blank" rel="noopener noreferrer">Marcar</a></li>
         </ul>
       </nav>
     </div>
@@ -149,18 +162,18 @@
         <h1 class="hero__titulo" id="hero-titulo">O teu melhor visual está aqui!</h1>
 
         <div class="hero__botoes">
-          <a class="botao botao--primario" href="https://noona.pt/eaglesbarbershop" target="_blank" rel="noopener">
+          <a class="botao botao--primario" href="https://noona.pt/eaglesbarbershop" target="_blank" rel="noopener noreferrer">
             <svg class="icone" aria-hidden="true"><use href="#icone-calendario"/></svg>
             Marcar
           </a>
-          <a class="botao botao--secundario" href="https://wa.me/351925413690?text=Ol%C3%A1!%20Gostaria%20de%20marcar%20um%20hor%C3%A1rio." target="_blank" rel="noopener">
+          <a class="botao botao--secundario" href="https://wa.me/351925413690?text=Ol%C3%A1!%20Gostaria%20de%20marcar%20um%20hor%C3%A1rio." target="_blank" rel="noopener noreferrer">
             <svg class="icone" aria-hidden="true"><use href="#icone-whatsapp"/></svg>
             WhatsApp
           </a>
         </div>
 
         <!-- Prova social. TODO: trocar pelo link direto para as críticas no Google Maps -->
-        <a class="avaliacao" href="https://www.google.com/maps/search/?api=1&amp;query=Eagles%20Barbearia%20Estarreja" target="_blank" rel="noopener">
+        <a class="avaliacao" href="https://www.google.com/maps/search/?api=1&amp;query=Eagles%20Barbearia%20Estarreja" target="_blank" rel="noopener noreferrer">
           <span class="avaliacao__estrelas" aria-hidden="true">
             <svg class="icone"><use href="#icone-estrela"/></svg>
             <svg class="icone"><use href="#icone-estrela"/></svg>
@@ -285,7 +298,7 @@
         </div>
 
         <p class="servicos__cta">
-          <a class="botao botao--primario" href="https://noona.pt/eaglesbarbershop" target="_blank" rel="noopener">Marcar agora</a>
+          <a class="botao botao--primario" href="https://noona.pt/eaglesbarbershop" target="_blank" rel="noopener noreferrer">Marcar agora</a>
         </p>
       </div>
     </section>
@@ -345,7 +358,7 @@
         </ul>
 
         <p class="galeria__mais">
-          <a class="link-dourado" href="https://instagram.com/eaglesbarbearias" target="_blank" rel="noopener">
+          <a class="link-dourado" href="https://instagram.com/eaglesbarbearias" target="_blank" rel="noopener noreferrer">
             <svg class="icone" aria-hidden="true"><use href="#icone-instagram"/></svg>
             Ver mais no Instagram
           </a>
@@ -403,7 +416,7 @@
             <svg class="icone icone--grande" aria-hidden="true"><use href="#icone-pin"/></svg>
             <p>O mapa é fornecido pelo Google, que pode guardar cookies no teu navegador.</p>
             <button class="botao botao--secundario" type="button" id="mapa-botao">Mostrar mapa</button>
-            <a class="link-dourado" href="https://www.google.com/maps/search/?api=1&amp;query=Pra%C3%A7a%20de%20Francisco%20Barbosa%2051%2C%203860-356%20Estarreja" target="_blank" rel="noopener">Abrir no Google Maps</a>
+            <a class="link-dourado" href="https://www.google.com/maps/search/?api=1&amp;query=Pra%C3%A7a%20de%20Francisco%20Barbosa%2051%2C%203860-356%20Estarreja" target="_blank" rel="noopener noreferrer">Abrir no Google Maps</a>
           </div>
         </div>
       </div>
@@ -418,13 +431,13 @@
 
       <ul class="rodape__contactos">
         <li>
-          <a href="https://instagram.com/eaglesbarbearias" target="_blank" rel="noopener">
+          <a href="https://instagram.com/eaglesbarbearias" target="_blank" rel="noopener noreferrer">
             <svg class="icone" aria-hidden="true"><use href="#icone-instagram"/></svg>
             @eaglesbarbearias
           </a>
         </li>
         <li>
-          <a href="https://wa.me/351925413690" target="_blank" rel="noopener">
+          <a href="https://wa.me/351925413690" target="_blank" rel="noopener noreferrer">
             <svg class="icone" aria-hidden="true"><use href="#icone-whatsapp"/></svg>
             WhatsApp
           </a>
@@ -453,11 +466,11 @@
     sempre ao alcance do polegar. Em ecrãs grandes é escondida pelo CSS.
   -->
   <div class="barra-acoes">
-    <a class="botao botao--primario" href="https://noona.pt/eaglesbarbershop" target="_blank" rel="noopener">
+    <a class="botao botao--primario" href="https://noona.pt/eaglesbarbershop" target="_blank" rel="noopener noreferrer">
       <svg class="icone" aria-hidden="true"><use href="#icone-calendario"/></svg>
       Marcar
     </a>
-    <a class="botao botao--secundario" href="https://wa.me/351925413690?text=Ol%C3%A1!%20Gostaria%20de%20marcar%20um%20hor%C3%A1rio." target="_blank" rel="noopener">
+    <a class="botao botao--secundario" href="https://wa.me/351925413690?text=Ol%C3%A1!%20Gostaria%20de%20marcar%20um%20hor%C3%A1rio." target="_blank" rel="noopener noreferrer">
       <svg class="icone" aria-hidden="true"><use href="#icone-whatsapp"/></svg>
       WhatsApp
     </a>

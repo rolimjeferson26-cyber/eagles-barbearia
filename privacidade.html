@@ -3,6 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!--
+    Segurança (o GitHub Pages não deixa configurar cabeçalhos HTTP, por isso
+    usamos <meta>). A CSP diz ao navegador de onde pode carregar cada tipo de
+    recurso: só ficheiros do próprio site.
+    Não há 'unsafe-inline' porque o site não tem estilos nem scripts inline.
+  -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+
+  <!-- TEMPORÁRIO: impede a indexação enquanto o site é só uma demonstração.
+       Remover quando passar a ser o site oficial da barbearia. -->
+  <meta name="robots" content="noindex">
   <title>Política de privacidade | Eagles Barbearia</title>
   <meta name="description" content="Política de privacidade do site da Eagles Barbearia, em Estarreja. Este site não usa cookies nem rastreadores.">
   <meta name="theme-color" content="#0B0B0B">
@@ -56,7 +69,7 @@
     </ul>
 
     <h2>Os seus direitos</h2>
-    <p>Nos termos do Regulamento Geral sobre a Proteção de Dados (RGPD), tem direito a aceder, retificar e apagar os seus dados, entre outros. Pode também apresentar reclamação à Comissão Nacional de Proteção de Dados (<a href="https://www.cnpd.pt" target="_blank" rel="noopener">CNPD</a>).</p>
+    <p>Nos termos do Regulamento Geral sobre a Proteção de Dados (RGPD), tem direito a aceder, retificar e apagar os seus dados, entre outros. Pode também apresentar reclamação à Comissão Nacional de Proteção de Dados (<a href="https://www.cnpd.pt" target="_blank" rel="noopener noreferrer">CNPD</a>).</p>
   </main>
 
   <footer class="rodape">
