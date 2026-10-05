@@ -574,7 +574,7 @@ address {
   gap: var(--espaco-l);
 }
 
-.sobre__texto > p {
+.sobre__texto > p:not(.seccao__etiqueta) {
   color: var(--cor-texto-suave);
   font-size: 1.05rem;
 }
@@ -670,7 +670,7 @@ address {
   gap: var(--espaco-l);
 }
 
-.ozono__texto > p {
+.ozono__texto > p:not(.seccao__etiqueta) {
   color: var(--cor-texto-suave);
   font-size: 1.05rem;
 }
