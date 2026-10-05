@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <!-- FAVICON PROVISÓRIO: gerar a partir do logo real -->
-  <rect width="64" height="64" rx="12" fill="#0B0B0B"/>
-  <g fill="#C9A24A" transform="translate(-18 -10) scale(.5)">
-    <path d="M100 92 L58 58 L66 74 L48 70 L62 84 L46 86 L66 94 L56 102 L84 100 Z"/>
-    <path d="M100 92 L142 58 L134 74 L152 70 L138 84 L154 86 L134 94 L144 102 L116 100 Z"/>
-    <path d="M100 66 C108 66 112 74 108 82 L118 86 L106 88 L100 110 L94 88 C88 82 90 66 100 66 Z"/>
-  </g>
-</svg>

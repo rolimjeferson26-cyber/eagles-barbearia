@@ -31,5 +31,5 @@ python3 -m http.server 8000
 
 ## Pendentes
 
-- [ ] Logo em boa qualidade (substituir `img/logo.svg`)
+- [x] Logo real (`img/logo-160.webp`, `img/logo-320.webp`; original em `recursos/`)
 - [ ] Fotos reais dos cortes, do espaço e dos barbeiros (substituir os ficheiros em `img/`)
