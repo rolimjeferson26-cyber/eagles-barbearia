@@ -1,0 +1,1060 @@
+/* =========================================================================
+   Eagles Barbearia — Estilos
+   -------------------------------------------------------------------------
+   Abordagem MOBILE-FIRST: os estilos base são para telemóvel. Os ecrãs
+   maiores são tratados no fim com @media (min-width: ...), que só
+   ACRESCENTAM ou ALTERAM o que é preciso.
+
+   Nomes de classes no estilo BEM:
+     .bloco            → componente (ex.: .cartao)
+     .bloco__elemento  → parte do componente (ex.: .cartao__titulo)
+     .bloco--variante  → variação (ex.: .botao--primario)
+
+   Índice
+     1. Fontes
+     2. Variáveis (cores, tipografia, espaçamentos)
+     3. Reset e base
+     4. Utilitários
+     5. Componentes reutilizáveis (botões, ícones, cartões)
+     6. Cabeçalho e menu
+     7. Secções (hero, sobre, serviços, ozono, equipa, galeria, horários)
+     8. Rodapé e barra de ações
+     9. Página de privacidade
+    10. Tablet (≥ 48em / 768px)
+    11. Computador (≥ 64em / 1024px)
+    12. Movimento reduzido
+   ========================================================================= */
+
+
+/* ===== 1. Fontes ========================================================
+   Alojadas na pasta /fonts (e não no Google Fonts) para não enviar o IP
+   do visitante a terceiros. font-display: swap mostra logo o texto com
+   uma fonte do sistema e troca quando a fonte final carregar.            */
+
+@font-face {
+  font-family: "Oswald";
+  src: url("../fonts/oswald-latin-500-normal.woff2") format("woff2");
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Oswald";
+  src: url("../fonts/oswald-latin-700-normal.woff2") format("woff2");
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Inter";
+  src: url("../fonts/inter-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Inter";
+  src: url("../fonts/inter-latin-600-normal.woff2") format("woff2");
+  font-weight: 600;
+  font-display: swap;
+}
+
+
+/* ===== 2. Variáveis =====================================================
+   Custom properties: definimos cada valor UMA vez e reutilizamos com
+   var(--nome). Mudar o dourado do site inteiro = mudar uma linha.        */
+
+:root {
+  /* Cores */
+  --cor-fundo: #0B0B0B;
+  --cor-cartao: #161616;
+  --cor-borda: #2A2A2A;
+  --cor-dourado: #C9A24A;
+  --cor-dourado-claro: #DDBB6B;
+  --cor-texto: #F2F2F2;
+  --cor-texto-suave: #A0A0A0;
+
+  /* Tipografia */
+  --fonte-titulos: "Oswald", "Arial Narrow", Impact, sans-serif;
+  --fonte-texto: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  /* clamp(mínimo, ideal, máximo): o tamanho cresce com a largura do ecrã
+     (vw) mas nunca sai dos limites. Tipografia fluida sem media queries. */
+  --texto-base: 1rem;
+  --texto-pequeno: 0.875rem;
+  --titulo-seccao: clamp(2rem, 6vw + 0.5rem, 3rem);
+  --titulo-hero: clamp(2.5rem, 9vw + 0.5rem, 4.5rem);
+
+  /* Espaçamentos */
+  --espaco-xs: 0.5rem;
+  --espaco-s: 1rem;
+  --espaco-m: 1.5rem;
+  --espaco-l: 2.5rem;
+  --espaco-xl: clamp(4rem, 10vw, 6rem);
+
+  /* Outros */
+  --raio: 10px;
+  --altura-cabecalho: 4rem;
+  --largura-maxima: 72rem;
+  --transicao: 0.25s ease;
+}
+
+
+/* ===== 3. Reset e base ================================================== */
+
+/* box-sizing: border-box faz com que padding e borda contem para a largura
+   definida. Torna os tamanhos muito mais previsíveis.                    */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  /* Scroll suave ao clicar nos links do menu (#sobre, #servicos...).
+     scroll-padding-top desconta a altura do cabeçalho fixo, para o título
+     da secção não ficar escondido por baixo dele.                       */
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--altura-cabecalho);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--cor-fundo);
+  color: var(--cor-texto);
+  font-family: var(--fonte-texto);
+  font-size: var(--texto-base);
+  line-height: 1.6;
+  /* Espaço para a barra de ações fixa no telemóvel não tapar o rodapé */
+  padding-bottom: 4.5rem;
+}
+
+/* Impede o scroll da página por trás quando o menu móvel está aberto */
+body.sem-scroll {
+  overflow: hidden;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+}
+
+h1, h2, h3 {
+  font-family: var(--fonte-titulos);
+  font-weight: 700;
+  line-height: 1.1;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+a {
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+address {
+  font-style: normal;
+}
+
+/* Contorno visível quando se navega por teclado (acessibilidade).
+   :focus-visible não aparece ao clicar com o rato, só com Tab.           */
+:focus-visible {
+  outline: 2px solid var(--cor-dourado);
+  outline-offset: 3px;
+}
+
+
+/* ===== 4. Utilitários =================================================== */
+
+/* Centra o conteúdo e limita a largura em ecrãs grandes */
+.contentor {
+  width: 100%;
+  max-width: var(--largura-maxima);
+  margin-inline: auto;
+  padding-inline: var(--espaco-s);
+}
+
+/* Esconde visualmente mas mantém o texto para leitores de ecrã */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Sprite de ícones: existe no HTML mas não ocupa espaço */
+.sprite {
+  display: none;
+}
+
+/* "Saltar para o conteúdo": fora do ecrã até receber foco com Tab */
+.saltar-conteudo {
+  position: absolute;
+  top: var(--espaco-xs);
+  left: var(--espaco-xs);
+  z-index: 100;
+  padding: var(--espaco-xs) var(--espaco-s);
+  background: var(--cor-dourado);
+  color: var(--cor-fundo);
+  font-weight: 600;
+  border-radius: var(--raio);
+  transform: translateY(-200%);
+  transition: transform var(--transicao);
+}
+
+.saltar-conteudo:focus {
+  transform: translateY(0);
+}
+
+
+/* ===== 5. Componentes reutilizáveis ===================================== */
+
+/* --- Ícones ---
+   Os SVG do sprite usam stroke="currentColor", ou seja, ficam com a cor
+   do texto do elemento pai. Aqui definimos tamanho e cor dourada.       */
+.icone {
+  width: 1.25em;
+  height: 1.25em;
+  flex-shrink: 0;
+  color: var(--cor-dourado);
+}
+
+.icone--grande {
+  width: 2rem;
+  height: 2rem;
+}
+
+/* --- Botões --- */
+.botao {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--espaco-xs);
+  min-height: 3rem;            /* alvo de toque confortável (≥ 44px) */
+  padding: 0.75rem 1.5rem;
+  border: 2px solid var(--cor-dourado);
+  border-radius: var(--raio);
+  font-family: var(--fonte-titulos);
+  font-size: 1.05rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color var(--transicao), color var(--transicao), transform var(--transicao);
+}
+
+.botao:hover {
+  transform: translateY(-2px);
+}
+
+.botao--primario {
+  background-color: var(--cor-dourado);
+  color: var(--cor-fundo);
+}
+
+.botao--primario .icone {
+  color: currentColor;
+}
+
+.botao--primario:hover {
+  background-color: var(--cor-dourado-claro);
+  border-color: var(--cor-dourado-claro);
+}
+
+.botao--secundario {
+  background-color: transparent;
+  color: var(--cor-texto);
+}
+
+.botao--secundario:hover {
+  background-color: var(--cor-dourado);
+  color: var(--cor-fundo);
+}
+
+.botao--secundario:hover .icone {
+  color: currentColor;
+}
+
+/* Link de texto dourado com ícone */
+.link-dourado {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espaco-xs);
+  color: var(--cor-dourado);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.link-dourado:hover {
+  color: var(--cor-dourado-claro);
+}
+
+/* --- Secções --- */
+.seccao {
+  padding-block: var(--espaco-xl);
+}
+
+/* Alterna o fundo entre secções para criar ritmo visual */
+.seccao--escura {
+  background-color: var(--cor-cartao);
+}
+
+.seccao__etiqueta {
+  color: var(--cor-dourado);
+  font-family: var(--fonte-titulos);
+  font-size: var(--texto-pequeno);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.seccao__titulo {
+  font-size: var(--titulo-seccao);
+  margin-block: var(--espaco-xs) var(--espaco-m);
+}
+
+/* Linha dourada curta por baixo de cada título de secção */
+.seccao__titulo::after {
+  content: "";
+  display: block;
+  width: 3rem;
+  height: 3px;
+  margin-top: var(--espaco-s);
+  background-color: var(--cor-dourado);
+}
+
+/* --- Cartões --- */
+.cartao {
+  padding: var(--espaco-m);
+  background-color: var(--cor-fundo);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio);
+}
+
+.cartao__titulo {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-s);
+  font-size: 1.5rem;
+  padding-bottom: var(--espaco-s);
+  margin-bottom: var(--espaco-s);
+  border-bottom: 1px solid var(--cor-borda);
+}
+
+
+/* ===== 6. Cabeçalho e menu ============================================== */
+
+.cabecalho {
+  position: fixed;
+  inset: 0 0 auto 0;          /* top: 0; right: 0; left: 0 */
+  z-index: 50;
+  height: var(--altura-cabecalho);
+  /* Começa transparente por cima do hero; o JS acrescenta
+     .cabecalho--solido quando a página faz scroll.                    */
+  background-color: transparent;
+  transition: background-color var(--transicao), box-shadow var(--transicao);
+}
+
+.cabecalho--solido,
+.cabecalho.menu-aberto {
+  background-color: rgba(11, 11, 11, 0.95);
+  box-shadow: 0 1px 0 var(--cor-borda);
+}
+
+.cabecalho__interior {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.cabecalho__logo {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-xs);
+  font-family: var(--fonte-titulos);
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+/* --- Botão hambúrguer: 3 linhas que viram um "X" quando aberto --- */
+.menu-botao {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  width: 3rem;
+  height: 3rem;
+  padding: 0.75rem;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.menu-botao__linha {
+  display: block;
+  height: 2px;
+  background-color: var(--cor-dourado);
+  border-radius: 2px;
+  transition: transform var(--transicao), opacity var(--transicao);
+}
+
+/* O seletor de atributo [aria-expanded="true"] liga o estilo ao estado
+   real de acessibilidade: se o JS diz "aberto", o ícone vira X.       */
+.menu-botao[aria-expanded="true"] .menu-botao__linha:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+.menu-botao[aria-expanded="true"] .menu-botao__linha:nth-child(2) {
+  opacity: 0;
+}
+.menu-botao[aria-expanded="true"] .menu-botao__linha:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+/* --- Painel do menu (telemóvel): ocupa o ecrã por baixo do cabeçalho --- */
+.menu {
+  position: fixed;
+  inset: var(--altura-cabecalho) 0 0 0;
+  padding: var(--espaco-l) var(--espaco-s);
+  background-color: var(--cor-fundo);
+  /* Escondido: deslocado para cima e invisível.
+     visibility: hidden também o tira da navegação por Tab.           */
+  transform: translateY(-1rem);
+  opacity: 0;
+  visibility: hidden;
+  transition: transform var(--transicao), opacity var(--transicao), visibility var(--transicao);
+}
+
+.cabecalho.menu-aberto .menu {
+  transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
+}
+
+.menu__lista {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--espaco-m);
+}
+
+.menu__link {
+  font-family: var(--fonte-titulos);
+  font-size: 1.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color var(--transicao);
+}
+
+.menu__link:hover,
+.menu__link--ativo {
+  color: var(--cor-dourado);
+}
+
+.menu__cta {
+  margin-top: var(--espaco-s);
+}
+
+
+/* ===== 7. Secções ======================================================= */
+
+/* --- Hero --- */
+.hero {
+  position: relative;
+  display: grid;
+  place-items: center;
+  /* svh = altura "pequena" do ecrã: não salta quando a barra do
+     navegador do telemóvel aparece/desaparece.                       */
+  min-height: 100svh;
+  padding-block: calc(var(--altura-cabecalho) + var(--espaco-l)) var(--espaco-l);
+  text-align: center;
+  overflow: hidden;
+  /* Cria um novo contexto de empilhamento: os filhos com z-index: -1
+     ficam atrás do conteúdo do hero, mas não atrás da página inteira. */
+  isolation: isolate;
+}
+
+.hero__fundo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;          /* preenche sem deformar, cortando as sobras */
+  z-index: -1;
+}
+
+/* Camada escura por cima da foto para o texto ter sempre contraste */
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(180deg, rgba(11, 11, 11, 0.55) 0%, rgba(11, 11, 11, 0.85) 70%, var(--cor-fundo) 100%);
+}
+
+.hero__conteudo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero__logo {
+  width: clamp(7rem, 30vw, 10rem);
+  margin-bottom: var(--espaco-m);
+}
+
+.hero__local {
+  color: var(--cor-dourado);
+  font-family: var(--fonte-titulos);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+.hero__titulo {
+  font-size: var(--titulo-hero);
+  max-width: 14ch;            /* ch = largura de um carácter: limita a ~14 letras por linha */
+  margin-block: var(--espaco-s) var(--espaco-l);
+}
+
+.hero__botoes {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-s);
+  width: 100%;
+  max-width: 20rem;
+}
+
+.avaliacao {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: var(--espaco-xs);
+  margin-top: var(--espaco-l);
+  color: var(--cor-texto-suave);
+  font-size: var(--texto-pequeno);
+  text-decoration: none;
+}
+
+.avaliacao strong {
+  color: var(--cor-texto);
+}
+
+.avaliacao:hover span:last-child {
+  text-decoration: underline;
+}
+
+.avaliacao__estrelas {
+  display: flex;
+  gap: 2px;
+}
+
+/* --- Sobre --- */
+.sobre {
+  display: grid;
+  gap: var(--espaco-l);
+}
+
+.sobre__texto > p {
+  color: var(--cor-texto-suave);
+  font-size: 1.05rem;
+}
+
+.sobre__imagem,
+.ozono__imagem {
+  width: 100%;
+  border-radius: var(--raio);
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.destaque-cafe {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-s);
+  margin-top: var(--espaco-m);
+  padding: var(--espaco-s) var(--espaco-m);
+  border-left: 3px solid var(--cor-dourado);
+  background-color: var(--cor-cartao);
+  border-radius: 0 var(--raio) var(--raio) 0;
+}
+
+/* --- Serviços --- */
+.servicos {
+  display: grid;
+  gap: var(--espaco-m);
+}
+
+/* Cada serviço é uma pequena grelha:
+     [ nome ............ preço ]
+     [ duração                 ]                                       */
+.servico {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas:
+    "nome    preco"
+    "duracao preco";
+  column-gap: var(--espaco-s);
+  padding-block: 0.75rem;
+  border-bottom: 1px dashed var(--cor-borda);
+}
+
+.servico:last-child {
+  border-bottom: 0;
+}
+
+.servico__nome {
+  grid-area: nome;
+  font-weight: 600;
+}
+
+.servico__duracao {
+  grid-area: duracao;
+  color: var(--cor-texto-suave);
+  font-size: var(--texto-pequeno);
+}
+
+.servico__preco {
+  grid-area: preco;
+  align-self: center;
+  color: var(--cor-dourado);
+  font-family: var(--fonte-titulos);
+  font-size: 1.25rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.servico__nota {
+  display: block;
+  color: var(--cor-dourado);
+  font-size: var(--texto-pequeno);
+  font-weight: 400;
+}
+
+/* Serviços com ozonioterapia: fundo dourado muito subtil */
+.servico--destaque {
+  margin-inline: calc(var(--espaco-s) * -1);
+  padding-inline: var(--espaco-s);
+  background-color: rgba(201, 162, 74, 0.08);
+  border-radius: var(--raio);
+  border-bottom: 0;
+}
+
+.servicos__cta {
+  margin-top: var(--espaco-l);
+  text-align: center;
+}
+
+/* --- Ozonioterapia --- */
+.ozono {
+  display: grid;
+  gap: var(--espaco-l);
+}
+
+.ozono__texto > p {
+  color: var(--cor-texto-suave);
+  font-size: 1.05rem;
+}
+
+.lista-icones {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: var(--espaco-m);
+}
+
+.lista-icones li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.lista-icones .icone {
+  margin-top: 0.15em;
+}
+
+/* --- Equipa --- */
+.equipa {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--espaco-m);
+}
+
+.membro {
+  text-align: center;
+}
+
+.membro__foto {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: var(--raio);
+  border: 1px solid var(--cor-borda);
+  margin-bottom: var(--espaco-s);
+}
+
+.membro__nome {
+  font-size: 1.25rem;
+}
+
+.membro__funcao {
+  color: var(--cor-dourado);
+  font-size: var(--texto-pequeno);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+/* --- Galeria --- */
+.galeria {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--espaco-xs);
+}
+
+.galeria li {
+  overflow: hidden;
+  border-radius: var(--raio);
+}
+
+.galeria img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.galeria li:hover img {
+  transform: scale(1.05);
+}
+
+.galeria__mais {
+  margin-top: var(--espaco-l);
+  text-align: center;
+}
+
+/* --- Horários e mapa --- */
+.horarios {
+  display: grid;
+  gap: var(--espaco-l);
+}
+
+.tabela-horarios {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabela-horarios th,
+.tabela-horarios td {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--cor-borda);
+}
+
+.tabela-horarios th {
+  text-align: left;
+  font-weight: 400;
+  color: var(--cor-texto-suave);
+}
+
+.tabela-horarios td {
+  text-align: right;
+  font-weight: 600;
+}
+
+/* Linha do dia de hoje (classe acrescentada pelo JS) */
+.tabela-horarios .hoje th,
+.tabela-horarios .hoje td {
+  color: var(--cor-dourado);
+}
+
+.tabela-horarios .hoje th::after {
+  content: " · hoje";
+  font-size: var(--texto-pequeno);
+}
+
+.nota {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-xs);
+  margin-top: var(--espaco-s);
+  color: var(--cor-texto-suave);
+  font-size: var(--texto-pequeno);
+}
+
+.morada {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-s);
+  margin-top: var(--espaco-l);
+  font-size: 1.05rem;
+}
+
+.mapa {
+  min-height: 20rem;
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio);
+  overflow: hidden;
+  background-color: var(--cor-fundo);
+}
+
+.mapa__aviso {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--espaco-s);
+  height: 100%;
+  min-height: 20rem;
+  padding: var(--espaco-m);
+  text-align: center;
+  color: var(--cor-texto-suave);
+  font-size: var(--texto-pequeno);
+}
+
+.mapa iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 20rem;
+  border: 0;
+}
+
+
+/* ===== 8. Rodapé e barra de ações ======================================= */
+
+.rodape {
+  padding-block: var(--espaco-xl) var(--espaco-l);
+  border-top: 1px solid var(--cor-borda);
+}
+
+.rodape__interior {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--espaco-l);
+  text-align: center;
+}
+
+.rodape__contactos {
+  display: grid;
+  gap: var(--espaco-s);
+  justify-items: center;
+}
+
+.rodape__contactos li,
+.rodape__contactos a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espaco-xs);
+}
+
+.rodape__contactos a {
+  text-decoration: none;
+}
+
+.rodape__contactos a:hover {
+  color: var(--cor-dourado);
+}
+
+.rodape__legal {
+  color: var(--cor-texto-suave);
+  font-size: var(--texto-pequeno);
+}
+
+/* Barra fixa no fundo do ecrã (só telemóvel) */
+.barra-acoes {
+  position: fixed;
+  inset: auto 0 0 0;          /* bottom: 0; left: 0; right: 0 */
+  z-index: 40;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--espaco-xs);
+  padding: var(--espaco-xs);
+  /* env(safe-area-inset-bottom): espaço da "barra" do iPhone */
+  padding-bottom: calc(var(--espaco-xs) + env(safe-area-inset-bottom));
+  background-color: rgba(11, 11, 11, 0.95);
+  border-top: 1px solid var(--cor-borda);
+}
+
+.barra-acoes .botao {
+  padding-inline: var(--espaco-s);
+}
+
+.barra-acoes .botao--secundario {
+  background-color: var(--cor-cartao);
+}
+
+
+/* ===== 9. Página de privacidade ========================================= */
+
+.pagina-texto {
+  padding-block: calc(var(--altura-cabecalho) + var(--espaco-l)) var(--espaco-xl);
+  max-width: 46rem;
+}
+
+.pagina-texto h1 {
+  font-size: var(--titulo-seccao);
+  margin-bottom: var(--espaco-m);
+}
+
+.pagina-texto h2 {
+  font-size: 1.5rem;
+  margin-block: var(--espaco-l) var(--espaco-xs);
+  color: var(--cor-dourado);
+}
+
+.pagina-texto p,
+.pagina-texto li {
+  color: var(--cor-texto-suave);
+  margin-bottom: var(--espaco-s);
+}
+
+.pagina-texto ul {
+  list-style: disc;
+  padding-left: var(--espaco-m);
+}
+
+.pagina-texto a {
+  color: var(--cor-dourado);
+}
+
+
+/* ===== 10. Tablet (≥ 48em / 768px) ======================================
+   Usamos em em vez de px nas media queries: respeitam o zoom de texto
+   do utilizador.                                                       */
+
+@media (min-width: 48em) {
+  .contentor {
+    padding-inline: var(--espaco-l);
+  }
+
+  /* A barra de ações deixa de ser precisa: o menu tem o botão Marcar */
+  body {
+    padding-bottom: 0;
+  }
+
+  .barra-acoes {
+    display: none;
+  }
+
+  /* --- Menu horizontal: esconde o hambúrguer e mostra os links --- */
+  .menu-botao {
+    display: none;
+  }
+
+  .menu {
+    position: static;
+    padding: 0;
+    background: none;
+    transform: none;
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .menu__lista {
+    flex-direction: row;
+    gap: var(--espaco-m);
+  }
+
+  .menu__link {
+    font-size: 1rem;
+  }
+
+  .menu__cta {
+    margin-top: 0;
+    min-height: 2.5rem;
+    padding: 0.4rem 1.25rem;
+  }
+
+  .hero__botoes {
+    flex-direction: row;
+    justify-content: center;
+    max-width: none;
+  }
+
+  .servicos {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .galeria {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--espaco-s);
+  }
+
+  .equipa {
+    max-width: 40rem;
+  }
+
+  .rodape__contactos {
+    grid-template-columns: repeat(3, auto);
+    column-gap: var(--espaco-l);
+  }
+
+  .rodape__contactos li:last-child {
+    grid-column: 1 / -1;
+  }
+}
+
+
+/* ===== 11. Computador (≥ 64em / 1024px) ================================= */
+
+@media (min-width: 64em) {
+  /* Texto e imagem lado a lado */
+  .sobre,
+  .ozono,
+  .horarios {
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: var(--espaco-xl);
+  }
+
+  .servicos {
+    grid-template-columns: repeat(3, 1fr);
+    align-items: start;
+  }
+
+  .horarios {
+    align-items: stretch;
+  }
+
+  .mapa,
+  .mapa__aviso,
+  .mapa iframe {
+    min-height: 28rem;
+  }
+}
+
+
+/* ===== 12. Movimento reduzido ===========================================
+   Quem ativou "reduzir movimento" no sistema operativo (por exemplo, por
+   enjoo com animações) não recebe scroll suave nem transições.         */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
