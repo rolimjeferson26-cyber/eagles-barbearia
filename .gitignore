@@ -1,0 +1,11 @@
+# Ficheiros do sistema operativo
+.DS_Store
+Thumbs.db
+
+# Editores
+.vscode/
+.idea/
+*.swp
+
+# Ferramentas de deploy
+.netlify/
