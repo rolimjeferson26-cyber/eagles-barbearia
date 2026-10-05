@@ -1,0 +1,7 @@
+Fontes alojadas localmente (em vez de usar o CDN do Google Fonts) para que
+o navegador do visitante não faça pedidos a servidores de terceiros (RGPD).
+
+- Oswald (500, 700) — SIL Open Font License 1.1
+- Inter  (400, 600) — SIL Open Font License 1.1
+
+Origem: pacotes @fontsource (subconjunto "latin", inclui á, ã, ç, é, €).
