@@ -1,5 +1,7 @@
 # Eagles Barbearia — Site
 
+🔗 **Demonstração:** https://rolimjeferson26-cyber.github.io/eagles-barbearia/
+
 Site de apresentação da **Eagles Barbearia**, em Estarreja (Portugal).
 Pensado primeiro para telemóvel, com um objetivo principal: levar o cliente a **marcar** (via Noona) ou a **falar no WhatsApp**.
 
@@ -19,6 +21,14 @@ js/main.js          Menu, scroll e mapa
 img/                Logo, galeria e equipa (WebP)
 fonts/              Oswald e Inter (woff2)
 ```
+
+## Segurança
+
+- Content Security Policy restritiva (só recursos do próprio site; iframe apenas do Google Maps)
+- Sem scripts, estilos ou fontes externos; sem cookies nem rastreadores
+- Mapa do Google só carrega com o clique do visitante, num iframe com `sandbox` mínima
+- `rel="noopener noreferrer"` em todos os links externos
+- Secret scanning e push protection ativos no GitHub
 
 ## Ver localmente
 

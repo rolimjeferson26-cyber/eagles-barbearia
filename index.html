@@ -24,12 +24,18 @@
   <meta name="theme-color" content="#0B0B0B">
 
   <!-- Open Graph: pré-visualização quando o link é partilhado (WhatsApp, Facebook...) -->
-  <!-- TODO após o deploy: trocar og:image por um URL absoluto e acrescentar og:url -->
+  <!-- As redes sociais exigem URLs absolutos (com https://) no og:image e no og:url.
+       Se o site mudar de domínio, atualizar aqui, no canonical e no JSON-LD. -->
   <meta property="og:type" content="website">
   <meta property="og:locale" content="pt_PT">
   <meta property="og:title" content="Eagles Barbearia | Barbearia em Estarreja">
   <meta property="og:description" content="O teu melhor visual está aqui! Cortes, barba e ozonioterapia em Estarreja.">
-  <meta property="og:image" content="img/og-image.jpg">
+  <meta property="og:url" content="https://rolimjeferson26-cyber.github.io/eagles-barbearia/">
+  <meta property="og:image" content="https://rolimjeferson26-cyber.github.io/eagles-barbearia/img/og-image.jpg">
+  <meta property="og:image:alt" content="Logo da Eagles Barbearia sobre fundo preto">
+
+  <!-- canonical: diz ao Google qual é o endereço oficial desta página -->
+  <link rel="canonical" href="https://rolimjeferson26-cyber.github.io/eagles-barbearia/">
 
   <link rel="icon" href="img/favicon-32.png" type="image/png" sizes="32x32">
   <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
@@ -46,14 +52,15 @@
   <!--
     Dados estruturados (JSON-LD): ajudam o Google a perceber que isto é uma
     barbearia local, com morada, telefone e horário.
-    TODO após o deploy: acrescentar "url" com o domínio final.
   -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "BarberShop",
     "name": "Eagles Barbearia",
-    "image": "img/og-image.jpg",
+    "url": "https://rolimjeferson26-cyber.github.io/eagles-barbearia/",
+    "image": "https://rolimjeferson26-cyber.github.io/eagles-barbearia/img/og-image.jpg",
+    "logo": "https://rolimjeferson26-cyber.github.io/eagles-barbearia/img/logo-320.webp",
     "telephone": "+351925413690",
     "priceRange": "3€ – 35€",
     "address": {
